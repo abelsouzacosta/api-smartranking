@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
@@ -21,7 +22,9 @@ export class PlayersController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Query('email') email: string) {
+    if (email) return this.playersService.findOneByEmail(email);
+
     return this.playersService.findAll();
   }
 

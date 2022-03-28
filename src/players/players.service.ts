@@ -102,6 +102,12 @@ export class PlayersService {
     return player;
   }
 
+  findOneByEmail(email: string) {
+    const player = this.findByEmail(email);
+
+    return player;
+  }
+
   update(id: number, { name, email, phone_number }: UpdatePlayerDto) {
     const player = this.findOrThrowsNotFoundException(id);
 
