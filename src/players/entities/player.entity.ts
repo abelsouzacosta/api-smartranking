@@ -1,13 +1,13 @@
 export class Player {
-  readonly _id: string;
-  readonly phone_number: string;
-  readonly email: string;
-  readonly name: string;
-  readonly ranking: string;
-  readonly position: number;
-  readonly photo_url: string;
+  public _id: number;
+  public phone_number: string;
+  public email: string;
+  public name: string;
+  public ranking: string;
+  public position: number;
+  public photo_url: string;
 
   constructor() {
-    this._id = this._id ? this._id : Math.floor(Math.random() * 101).toString();
+    this._id = this._id ? this._id : Math.floor(Math.random() * 101);
   }
 }

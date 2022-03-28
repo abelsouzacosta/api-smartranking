@@ -49,7 +49,14 @@ export class PlayersService {
   }
 
   update(id: number, { name, email, phone_number }: UpdatePlayerDto) {
-    return `This action updates a player`;
+    const player = this.players.find((player) => player._id === id);
+
+    if (!player)
+      throw new HttpException('Player not found', HttpStatus.NOT_FOUND);
+
+    player.name = name || player.name;
+    player.email = email || player.email;
+    player.phone_number = phone_number || player.phone_number;
   }
 
   remove(id: number) {
