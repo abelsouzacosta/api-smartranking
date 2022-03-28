@@ -35,6 +35,9 @@ export class PlayersService {
       name,
       email,
       phone_number,
+      ranking: 'A',
+      position: 1,
+      photo_url: 'www.google.com/images/random',
     });
 
     this.players.push(player);
