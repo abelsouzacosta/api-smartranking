@@ -121,6 +121,10 @@ export class PlayersService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} player`;
+    const player = this.findOrThrowsNotFoundException(id);
+
+    const indexOfPlayer = this.players.indexOf(player);
+
+    this.players.splice(indexOfPlayer, 1);
   }
 }
