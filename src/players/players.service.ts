@@ -51,6 +51,16 @@ export class PlayersService {
   update(id: number, { name, email, phone_number }: UpdatePlayerDto) {
     const player = this.players.find((player) => player._id === id);
 
+    const foundPlayerByEmail = this.players.find(
+      (player) => player.email === email,
+    );
+
+    if (foundPlayerByEmail._id !== id)
+      throw new HttpException(
+        'The email given in the body is already taken by another user',
+        HttpStatus.CONFLICT,
+      );
+
     if (!player)
       throw new HttpException('Player not found', HttpStatus.NOT_FOUND);
 
