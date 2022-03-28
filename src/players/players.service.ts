@@ -97,7 +97,7 @@ export class PlayersService {
   }
 
   findOne(id: number) {
-    const player = this.players.find((player) => player._id === id);
+    const player = this.findOrThrowsNotFoundException(id);
 
     return player;
   }
