@@ -48,7 +48,9 @@ export class PlayersService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} player`;
+    const player = this.players.find((player) => player._id === id);
+
+    return player;
   }
 
   update(id: number, { name, email, phone_number }: UpdatePlayerDto) {
