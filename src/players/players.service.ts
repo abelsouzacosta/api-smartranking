@@ -55,9 +55,19 @@ export class PlayersService {
       (player) => player.email === email,
     );
 
+    const foundPlayerByPhoneNumber = this.players.find(
+      (player) => player.phone_number === phone_number,
+    );
+
     if (foundPlayerByEmail._id !== id)
       throw new HttpException(
         'The email given in the body is already taken by another user',
+        HttpStatus.CONFLICT,
+      );
+
+    if (foundPlayerByPhoneNumber._id !== id)
+      throw new HttpException(
+        'The phone number given in the body requisition is already taken by another user',
         HttpStatus.CONFLICT,
       );
 
