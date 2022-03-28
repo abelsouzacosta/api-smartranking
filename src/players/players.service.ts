@@ -11,16 +11,65 @@ export class PlayersService {
     this.players = [];
   }
 
+  private findByPhoneNumber(phone_number: string) {
+    const player = this.players.find(
+      (player) => player.phone_number === phone_number,
+    );
+
+    return player;
+  }
+
+  private findByEmail(email: string) {
+    const player = this.players.find((player) => player.email === email);
+
+    return player;
+  }
+
+  private findOrThrowsNotFoundException(id: number): Player {
+    const player = this.players.find((player) => player._id === id);
+
+    if (!player)
+      throw new HttpException('Player not found', HttpStatus.NOT_FOUND);
+
+    return player;
+  }
+
+  private compareFoundPlayerByEmailWithPlayerIdGiven(
+    id: number,
+    email: string,
+  ): void {
+    const player = this.findOrThrowsNotFoundException(id);
+
+    const foundPlayerByEmail = this.findByEmail(email);
+
+    if (foundPlayerByEmail._id !== player._id)
+      throw new HttpException(
+        'The email on the request body is already taken by another user',
+        HttpStatus.CONFLICT,
+      );
+  }
+
+  private compareFoundPlayerByPhoneNumberWithPlayerIdGiven(
+    id: number,
+    phone_number: string,
+  ) {
+    const player = this.findOrThrowsNotFoundException(id);
+
+    const foundPlayerByPhoneNumber = this.findByPhoneNumber(phone_number);
+
+    if (player._id !== foundPlayerByPhoneNumber._id)
+      throw new HttpException(
+        'Phone already taken by another user',
+        HttpStatus.CONFLICT,
+      );
+  }
+
   create({ name, email, phone_number }: CreatePlayerDto) {
     const player = new Player();
 
-    const foundPlayerByEmail = this.players.find(
-      (player) => player.email === email,
-    );
+    const foundPlayerByEmail = this.findByEmail(email);
 
-    const foundPlayerByPhoneNumber = this.players.find(
-      (player) => player.phone_number === phone_number,
-    );
+    const foundPlayerByPhoneNumber = this.findByPhoneNumber(phone_number);
 
     if (foundPlayerByEmail)
       throw new HttpException('Email already taken', HttpStatus.CONFLICT);
@@ -54,30 +103,11 @@ export class PlayersService {
   }
 
   update(id: number, { name, email, phone_number }: UpdatePlayerDto) {
-    const player = this.players.find((player) => player._id === id);
+    const player = this.findOrThrowsNotFoundException(id);
 
-    const foundPlayerByEmail = this.players.find(
-      (player) => player.email === email,
-    );
+    this.compareFoundPlayerByEmailWithPlayerIdGiven(id, email);
 
-    const foundPlayerByPhoneNumber = this.players.find(
-      (player) => player.phone_number === phone_number,
-    );
-
-    if (foundPlayerByEmail._id !== id)
-      throw new HttpException(
-        'The email given in the body is already taken by another user',
-        HttpStatus.CONFLICT,
-      );
-
-    if (foundPlayerByPhoneNumber._id !== id)
-      throw new HttpException(
-        'The phone number given in the body requisition is already taken by another user',
-        HttpStatus.CONFLICT,
-      );
-
-    if (!player)
-      throw new HttpException('Player not found', HttpStatus.NOT_FOUND);
+    this.compareFoundPlayerByPhoneNumberWithPlayerIdGiven(id, phone_number);
 
     player.name = name || player.name;
     player.email = email || player.email;
