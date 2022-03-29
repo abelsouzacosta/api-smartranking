@@ -6,7 +6,7 @@ import { PlayersModule } from './players/players.module';
 import 'dotenv/config';
 
 @Module({
-  imports: [PlayersModule, MongooseModule.forRoot(process.env.MONGO_URI)],
+  imports: [MongooseModule.forRoot(process.env.MONGO_URI), PlayersModule],
   controllers: [AppController],
   providers: [AppService],
 })
