@@ -11,16 +11,53 @@ export class PlayersService {
     @InjectModel('Player') private readonly playerModel: Model<Player>,
   ) {}
 
-  private async findByEmail(email: string): Promise<Player> {
+  private async findByEmail(email: string) {
     const player = await this.playerModel.findOne({ email });
 
     return player;
   }
 
-  private async findByPhoneNumber(phone_number: string): Promise<Player> {
+  private async findByPhoneNumber(phone_number: string) {
     const player = await this.playerModel.findOne({ phone_number });
 
     return player;
+  }
+
+  private async findOneByIdOrThrowsAnException(id: string): Promise<Player> {
+    const player = await this.playerModel.findById(id);
+
+    if (!player)
+      throw new HttpException('Player not found', HttpStatus.NOT_FOUND);
+
+    return player;
+  }
+
+  private async checkIfEmailAlreadyTaken(
+    id: string,
+    email: string,
+  ): Promise<void> {
+    const player = await this.playerModel.findById(id);
+    const foundPlayerByEmail = await this.findByEmail(email);
+
+    if (foundPlayerByEmail && foundPlayerByEmail._id !== player._id)
+      throw new HttpException(
+        'Email already taekn by another player',
+        HttpStatus.CONFLICT,
+      );
+  }
+
+  private async checkIfPhoneNumberAlreadyTaken(
+    id: string,
+    phone_number: string,
+  ): Promise<void> {
+    const player = await this.findOne(id);
+    const foundPlayerByPhoneNumber = await this.findByPhoneNumber(phone_number);
+
+    if (foundPlayerByPhoneNumber && player._id !== foundPlayerByPhoneNumber._id)
+      throw new HttpException(
+        'Phone Number already taken',
+        HttpStatus.CONFLICT,
+      );
   }
 
   async create({ name, email, phone_number }: CreatePlayerDto): Promise<void> {
@@ -45,7 +82,7 @@ export class PlayersService {
     return players;
   }
 
-  async findOne(id: string): Promise<Player> {
+  async findOne(id: string) {
     const player = await this.playerModel.findById(id);
 
     return player;
@@ -57,8 +94,16 @@ export class PlayersService {
     return player;
   }
 
-  update(id: number, { name, email, phone_number }: UpdatePlayerDto) {
-    return;
+  async update(id: string, { name, email, phone_number }: UpdatePlayerDto) {
+    await this.findOneByIdOrThrowsAnException(id);
+
+    await this.checkIfEmailAlreadyTaken(id, email);
+    await this.checkIfPhoneNumberAlreadyTaken(id, phone_number);
+
+    await this.playerModel.updateOne(
+      { _id: id },
+      { $set: { name, email, phone_number } },
+    );
   }
 
   remove(id: number) {
