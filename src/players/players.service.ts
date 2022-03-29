@@ -23,7 +23,7 @@ export class PlayersService {
     return player;
   }
 
-  private async findOneByIdOrThrowsAnException(id: string): Promise<Player> {
+  private async findOneByIdOrThrowsAnException(id: string) {
     const player = await this.playerModel.findById(id);
 
     if (!player)
@@ -106,7 +106,9 @@ export class PlayersService {
     );
   }
 
-  remove(id: number) {
-    return;
+  async remove(id: string) {
+    const player = await this.findOneByIdOrThrowsAnException(id);
+
+    await this.playerModel.deleteMany({ _id: player._id });
   }
 }
