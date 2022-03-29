@@ -107,8 +107,8 @@ export class PlayersService {
   }
 
   async remove(id: string) {
-    const player = await this.findOneByIdOrThrowsAnException(id);
+    await this.findOneByIdOrThrowsAnException(id);
 
-    await this.playerModel.deleteMany({ _id: player._id });
+    await this.playerModel.deleteMany({ _id: id });
   }
 }
