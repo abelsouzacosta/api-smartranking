@@ -45,12 +45,16 @@ export class PlayersService {
     return players;
   }
 
-  findOne(id: number) {
-    return;
+  async findOne(id: string): Promise<Player> {
+    const player = await this.playerModel.findById(id);
+
+    return player;
   }
 
-  findOneByEmail(email: string) {
-    return;
+  async findOneByEmail(email: string): Promise<Player> {
+    const player = await this.findByEmail(email);
+
+    return player;
   }
 
   update(id: number, { name, email, phone_number }: UpdatePlayerDto) {
