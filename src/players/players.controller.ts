@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   Query,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { CreatePlayerDto } from './dto/create-player.dto';
@@ -17,6 +19,7 @@ export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
   @Post()
+  @UsePipes(ValidationPipe)
   create(@Body() { name, email, phone_number }: CreatePlayerDto) {
     return this.playersService.create({ name, email, phone_number });
   }
@@ -34,6 +37,7 @@ export class PlayersController {
   }
 
   @Patch(':id')
+  @UsePipes(ValidationPipe)
   update(@Param('id') id: string, @Body() updatePlayerDto: UpdatePlayerDto) {
     return this.playersService.update(id, updatePlayerDto);
   }
