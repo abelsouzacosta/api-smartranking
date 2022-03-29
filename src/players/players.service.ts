@@ -11,17 +11,32 @@ export class PlayersService {
     @InjectModel('Player') private readonly playerModel: Model<Player>,
   ) {}
 
-  private async findByEmail(email: string): Promise<Player> {
+  private async findByEmail(email: string): Promise<Player | undefined> {
     const player = await this.playerModel.findOne({ email });
 
     return player;
   }
 
+  private async findByPhoneNumber(
+    phone_number: string,
+  ): Promise<Player | undefined> {
+    const player = await this.playerModel.findOne({ phone_number });
+
+    return player;
+  }
+
   async create({ name, email, phone_number }: CreatePlayerDto): Promise<void> {
-    const emailAlreadyTaken = this.findByEmail(email);
+    const emailAlreadyTaken = await this.findByEmail(email);
+    const phoneNumberAlreadyTaken = await this.findByPhoneNumber(phone_number);
 
     if (emailAlreadyTaken)
       throw new HttpException('Email already taken', HttpStatus.CONFLICT);
+
+    if (phoneNumberAlreadyTaken)
+      throw new HttpException(
+        'Phone number already taken',
+        HttpStatus.CONFLICT,
+      );
 
     await this.playerModel.create({ name, email, phone_number });
   }
