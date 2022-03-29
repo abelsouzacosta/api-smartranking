@@ -11,15 +11,13 @@ export class PlayersService {
     @InjectModel('Player') private readonly playerModel: Model<Player>,
   ) {}
 
-  private async findByEmail(email: string): Promise<Player | undefined> {
+  private async findByEmail(email: string): Promise<Player> {
     const player = await this.playerModel.findOne({ email });
 
     return player;
   }
 
-  private async findByPhoneNumber(
-    phone_number: string,
-  ): Promise<Player | undefined> {
+  private async findByPhoneNumber(phone_number: string): Promise<Player> {
     const player = await this.playerModel.findOne({ phone_number });
 
     return player;
@@ -41,8 +39,10 @@ export class PlayersService {
     await this.playerModel.create({ name, email, phone_number });
   }
 
-  findAll() {
-    return;
+  async findAll(): Promise<Player[]> {
+    const players = await this.playerModel.find();
+
+    return players;
   }
 
   findOne(id: number) {
