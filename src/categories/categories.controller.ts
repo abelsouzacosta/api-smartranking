@@ -42,7 +42,7 @@ export class CategoriesController {
     return this.categoriesService.update(id, updateCategoryDto);
   }
 
-  @Post(':id')
+  @Patch('/add/:id')
   attributePlayer(@Param('id') id: string, @Body() body: PlayerId) {
     return this.categoriesService.addPlayersToCategory(id, body);
   }
