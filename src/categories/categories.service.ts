@@ -42,6 +42,22 @@ export class CategoriesService {
     }
   }
 
+  private async checkIfPlayersAreAlreadyRegisteredForCategory(
+    category_id: string,
+    { players }: PlayerId,
+  ) {
+    const playerAlredySettedToCategory = await this.categoryModel
+      .findById(category_id)
+      .where('players')
+      .in(players);
+
+    if (playerAlredySettedToCategory)
+      throw new HttpException(
+        `Some player are already setted to the category given`,
+        HttpStatus.CONFLICT,
+      );
+  }
+
   async create({ category, description, events }: CreateCategoryDto) {
     const categoryAlreadyTaken = await this.categoryModel.findOne({
       category,
@@ -71,17 +87,7 @@ export class CategoriesService {
     await this.findCategoryOrThrowsNotFoundException(category_id);
 
     await this.validatePlayers(body);
-
-    const playerAlredySettedToCategory = await this.categoryModel
-      .findById(category_id)
-      .where('players')
-      .in(players);
-
-    if (playerAlredySettedToCategory)
-      throw new HttpException(
-        `Some player are already setted to the category given`,
-        HttpStatus.CONFLICT,
-      );
+    await this.checkIfPlayersAreAlreadyRegisteredForCategory(category_id, body);
 
     await this.categoryModel.updateOne(
       { _id: category_id },
