@@ -68,6 +68,17 @@ export class CategoriesService {
         );
     }
 
+    const playerAlredySettedToCategory = await this.categoryModel
+      .findById(category_id)
+      .where('players')
+      .in(players);
+
+    if (playerAlredySettedToCategory)
+      throw new HttpException(
+        `Some player are already setted to the category given`,
+        HttpStatus.CONFLICT,
+      );
+
     await this.categoryModel.updateOne(
       { _id: category_id },
       {
