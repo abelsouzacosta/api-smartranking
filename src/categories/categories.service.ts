@@ -137,6 +137,15 @@ export class CategoriesService {
     { category, description, events }: UpdateCategoryDto,
   ) {
     await this.findCategoryOrThrowsNotFoundException(id);
+
+    await this.categoryModel.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: { category, description, events },
+      },
+    );
   }
 
   async remove(id: string) {
