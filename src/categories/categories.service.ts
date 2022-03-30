@@ -11,6 +11,13 @@ export class CategoriesService {
     @InjectModel('Category') private readonly categoryModel: Model<Category>,
   ) {}
 
+  private async findCategoryOrThrowsException(id: string): Promise<void> {
+    const foundCategory = await this.categoryModel.findById(id);
+
+    if (!foundCategory)
+      throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+  }
+
   async create({ category, description, events, players }: CreateCategoryDto) {
     const categoryAlreadyTaken = await this.categoryModel.findOne({
       category,
@@ -34,11 +41,11 @@ export class CategoriesService {
     return category;
   }
 
-  update(id: number, updateCategoryDto: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
+    await this.findCategoryOrThrowsException(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: string) {
+    await this.findCategoryOrThrowsException(id);
   }
 }
