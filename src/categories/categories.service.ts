@@ -1,24 +1,36 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.schema';
 import { Model } from 'mongoose';
+import { Player } from 'src/players/entities/player.schema';
+import { PlayerId } from './dto/player-id.dto';
 
 @Injectable()
 export class CategoriesService {
   constructor(
     @InjectModel('Category') private readonly categoryModel: Model<Category>,
+    @InjectModel('Player') private readonly playerModel: Model<Player>,
   ) {}
 
-  private async findCategoryOrThrowsException(id: string): Promise<void> {
+  private async findCategoryOrThrowsNotFoundException(
+    id: string,
+  ): Promise<Category> {
     const foundCategory = await this.categoryModel.findById(id);
 
     if (!foundCategory)
       throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+
+    return foundCategory;
   }
 
-  async create({ category, description, events, players }: CreateCategoryDto) {
+  async create({ category, description, events }: CreateCategoryDto) {
     const categoryAlreadyTaken = await this.categoryModel.findOne({
       category,
     });
@@ -26,7 +38,7 @@ export class CategoriesService {
     if (categoryAlreadyTaken)
       throw new HttpException('Category already taken', HttpStatus.CONFLICT);
 
-    await this.categoryModel.create({ category, description, events, players });
+    await this.categoryModel.create({ category, description, events });
   }
 
   async findAll() {
@@ -41,11 +53,37 @@ export class CategoriesService {
     return category;
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    await this.findCategoryOrThrowsException(id);
+  async addPlayersToCategory(category_id: string, body: PlayerId) {
+    const { players } = body;
+
+    await this.findCategoryOrThrowsNotFoundException(category_id);
+
+    for (const player of players) {
+      const playerExists = await this.playerModel.findById(player._id);
+
+      if (!playerExists)
+        throw new HttpException(
+          `Player #${player._id} was not found`,
+          HttpStatus.NOT_FOUND,
+        );
+    }
+
+    await this.categoryModel.updateOne(
+      { _id: category_id },
+      {
+        $push: { players: players },
+      },
+    );
+  }
+
+  async update(
+    id: string,
+    { category, description, events }: UpdateCategoryDto,
+  ) {
+    await this.findCategoryOrThrowsNotFoundException(id);
   }
 
   async remove(id: string) {
-    await this.findCategoryOrThrowsException(id);
+    await this.findCategoryOrThrowsNotFoundException(id);
   }
 }

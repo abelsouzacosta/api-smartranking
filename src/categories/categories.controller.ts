@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { PlayerId } from './dto/player-id.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('/api/v1/categories')
@@ -39,6 +40,11 @@ export class CategoriesController {
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoriesService.update(id, updateCategoryDto);
+  }
+
+  @Post(':id')
+  attributePlayer(@Param('id') id: string, @Body() body: PlayerId) {
+    return this.categoriesService.addPlayersToCategory(id, body);
   }
 
   @Delete(':id')
