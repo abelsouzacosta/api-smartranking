@@ -30,6 +30,18 @@ export class CategoriesService {
     return foundCategory;
   }
 
+  private async validatePlayers({ players }: PlayerId) {
+    for (const player of players) {
+      const playerExists = await this.playerModel.findById(player._id);
+
+      if (!playerExists)
+        throw new HttpException(
+          `Player #${player._id} was not found`,
+          HttpStatus.NOT_FOUND,
+        );
+    }
+  }
+
   async create({ category, description, events }: CreateCategoryDto) {
     const categoryAlreadyTaken = await this.categoryModel.findOne({
       category,
@@ -58,15 +70,7 @@ export class CategoriesService {
 
     await this.findCategoryOrThrowsNotFoundException(category_id);
 
-    for (const player of players) {
-      const playerExists = await this.playerModel.findById(player._id);
-
-      if (!playerExists)
-        throw new HttpException(
-          `Player #${player._id} was not found`,
-          HttpStatus.NOT_FOUND,
-        );
-    }
+    await this.validatePlayers(body);
 
     const playerAlredySettedToCategory = await this.categoryModel
       .findById(category_id)
