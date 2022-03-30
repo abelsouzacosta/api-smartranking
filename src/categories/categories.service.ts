@@ -53,6 +53,21 @@ export class CategoriesService {
       );
   }
 
+  private async checkIfPlayerIsNotSettedToCategory(
+    category_id: string,
+    player_id: string,
+  ) {
+    const category = await this.categoryModel.findById(category_id);
+
+    const playerIsSettedToCategory = category.players.includes(player_id);
+
+    if (!playerIsSettedToCategory)
+      throw new HttpException(
+        `The player #${player_id} is not setted to category #${category_id}`,
+        HttpStatus.FAILED_DEPENDENCY,
+      );
+  }
+
   async create({ category, description, events }: CreateCategoryDto) {
     const categoryAlreadyTaken = await this.categoryModel.findOne({
       category,
@@ -102,17 +117,9 @@ export class CategoriesService {
     await this.validatePlayers(body);
 
     for (const player of players) {
-      const playerIsSettedToCategory = category.players.includes(player._id);
-
-      if (!playerIsSettedToCategory)
-        throw new HttpException(
-          `The player #${player._id} is not attributed to category #${category_id}`,
-          HttpStatus.CONFLICT,
-        );
-    }
-
-    for (const player of players) {
       const indexOfPlayer = category.players.indexOf(player._id);
+
+      await this.checkIfPlayerIsNotSettedToCategory(category_id, player._id);
 
       category.players.splice(indexOfPlayer, 1);
 
