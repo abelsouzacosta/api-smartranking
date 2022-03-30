@@ -47,6 +47,11 @@ export class CategoriesController {
     return this.categoriesService.addPlayersToCategory(id, body);
   }
 
+  @Patch('/remove/:id')
+  removePlayer(@Param('id') id: string, @Body() body: PlayerId) {
+    return this.categoriesService.removePlayersFromCategory(id, body);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.categoriesService.remove(id);

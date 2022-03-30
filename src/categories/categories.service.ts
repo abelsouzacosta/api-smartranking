@@ -92,6 +92,27 @@ export class CategoriesService {
     );
   }
 
+  async removePlayersFromCategory(category_id: string, body: PlayerId) {
+    const { players } = body;
+
+    const category = await this.findCategoryOrThrowsNotFoundException(
+      category_id,
+    );
+
+    await this.validatePlayers(body);
+
+    for (const player of players) {
+      const indexOfPlayer = category.players.indexOf(player._id);
+
+      const newCategoryPlayersArray = category.players.splice(indexOfPlayer, 1);
+
+      await this.categoryModel.updateOne(
+        { _id: category },
+        { $set: { players: newCategoryPlayersArray } },
+      );
+    }
+  }
+
   async update(
     id: string,
     { category, description, events }: UpdateCategoryDto,

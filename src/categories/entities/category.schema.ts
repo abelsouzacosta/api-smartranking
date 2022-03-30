@@ -28,7 +28,7 @@ export class Category {
     required: true,
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
   })
-  players: Player[];
+  players: string[];
 }
 
 export type CategoryDocument = Category & Document;
