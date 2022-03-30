@@ -21,8 +21,10 @@ export class CategoriesService {
     return categories;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} category`;
+  async findOne(id: string) {
+    const category = await this.categoryModel.findById(id).populate('players');
+
+    return category;
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
