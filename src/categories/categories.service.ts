@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -150,8 +150,6 @@ export class CategoriesService {
 
   async remove(id: string) {
     await this.findCategoryOrThrowsNotFoundException(id);
-
-    Logger.log(`Deleting category with id #${id}`);
 
     await this.categoryModel.deleteOne({ _id: id });
   }
