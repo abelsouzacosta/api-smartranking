@@ -1,8 +1,10 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 
 @Schema({ timestamps: true, collection: 'players' })
 export class Player {
+  _id: ObjectId;
+
   @Prop({ required: true })
   public name: string;
 

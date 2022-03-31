@@ -1,6 +1,7 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { Document } from 'mongoose';
+import { Player } from 'src/players/entities/player.schema';
 
 export type Event = {
   name: string;
@@ -27,7 +28,7 @@ export class Category {
     required: true,
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
   })
-  players: string[];
+  players: Player[];
 }
 
 export type CategoryDocument = Category & Document;

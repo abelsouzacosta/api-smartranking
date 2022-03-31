@@ -59,7 +59,9 @@ export class CategoriesService {
   ) {
     const category = await this.categoryModel.findById(category_id);
 
-    const playerIsSettedToCategory = category.players.includes(player_id);
+    const playerIsSettedToCategory = category.players.find(
+      (player) => String(player._id) === player_id,
+    );
 
     if (!playerIsSettedToCategory)
       throw new HttpException(
@@ -117,7 +119,12 @@ export class CategoriesService {
     await this.validatePlayers(body);
 
     for (const player of players) {
-      const indexOfPlayer = category.players.indexOf(player._id);
+      const foundPlayer = category.players.find(
+        (playerInsideCategory) =>
+          String(playerInsideCategory._id) === player._id,
+      );
+
+      const indexOfPlayer = category.players.indexOf(foundPlayer);
 
       await this.checkIfPlayerIsNotSettedToCategory(category_id, player._id);
 
