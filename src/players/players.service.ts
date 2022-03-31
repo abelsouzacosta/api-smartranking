@@ -109,6 +109,6 @@ export class PlayersService {
   async remove(id: string) {
     await this.findOneByIdOrThrowsAnException(id);
 
-    await this.playerModel.deleteMany({ _id: id });
+    await this.playerModel.deleteOne({ _id: id });
   }
 }
