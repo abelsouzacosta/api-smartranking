@@ -34,7 +34,7 @@ export class PlayersController {
   }
 
   @Patch(':id')
-  @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe(), new FormattedNamePipePipe())
   update(@Param('id') id: string, @Body() data: UpdatePlayerDto) {
     return this.playersService.update(id, data);
   }
