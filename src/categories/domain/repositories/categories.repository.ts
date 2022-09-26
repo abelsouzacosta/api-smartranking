@@ -3,6 +3,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { UpdateCategoryDto } from '../dto/update-category.dto';
+import { UpdateResult } from 'mongodb';
 
 export class CategoriesRepository {
   constructor(
@@ -42,5 +44,9 @@ export class CategoriesRepository {
     return this.model.findOne({
       category,
     });
+  }
+
+  async update(id: string, data: UpdateCategoryDto): Promise<UpdateResult> {
+    return this.model.updateOne({ _id: id }, { ...data });
   }
 }

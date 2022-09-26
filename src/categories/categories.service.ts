@@ -19,8 +19,8 @@ export class CategoriesService {
     return this.repository.findById(id);
   }
 
-  update(id: number, data: UpdateCategoryDto) {
-    return `This action updates a #${id} category`;
+  update(id: string, data: UpdateCategoryDto) {
+    return this.repository.update(id, data);
   }
 
   remove(id: number) {
