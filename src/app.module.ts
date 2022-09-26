@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { configValidationSchema } from './config.schema';
 import { PlayersModule } from './players/players.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PlayersModule } from './players/players.module';
       }),
     }),
     PlayersModule,
+    CategoriesModule,
   ],
 })
 export class AppModule {}
