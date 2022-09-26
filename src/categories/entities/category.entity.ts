@@ -9,7 +9,7 @@ import { EventSchema } from './event.entity';
   collection: 'categories',
 })
 export class Category {
-  @Prop({ required: true, type: String })
+  @Prop({ required: true, type: String, unique: true })
   category: string;
 
   @Prop({ required: true, type: String })
