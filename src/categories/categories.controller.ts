@@ -12,13 +12,14 @@ import {
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './domain/dto/create-category.dto';
 import { UpdateCategoryDto } from './domain/dto/update-category.dto';
+import { CheckEventPipe } from './pipes/check-event.pipe';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe(), new CheckEventPipe())
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
   }
