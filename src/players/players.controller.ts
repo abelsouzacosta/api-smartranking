@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { PlayersService } from './players.service';
 import { CreatePlayerDto } from './domain/dto/create-player.dto';
 import { UpdatePlayerDto } from './domain/dto/update-player.dto';
@@ -8,6 +17,7 @@ export class PlayersController {
   constructor(private readonly playersService: PlayersService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Body() data: CreatePlayerDto) {
     return this.playersService.create(data);
   }
@@ -23,6 +33,7 @@ export class PlayersController {
   }
 
   @Patch(':id')
+  @UsePipes(new ValidationPipe())
   update(@Param('id') id: string, @Body() data: UpdatePlayerDto) {
     return this.playersService.update(id, data);
   }
