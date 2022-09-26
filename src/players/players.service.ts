@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePlayerDto } from './domain/dto/create-player.dto';
 import { UpdatePlayerDto } from './domain/dto/update-player.dto';
 import { PlayersRepository } from './domain/repositories/players.repository';
@@ -7,7 +7,16 @@ import { PlayersRepository } from './domain/repositories/players.repository';
 export class PlayersService {
   constructor(private readonly repository: PlayersRepository) {}
 
-  create(data: CreatePlayerDto) {
+  async thorwsExceptionIfEmailAlreadyTaken(email: string): Promise<void> {
+    const emailFound = await this.repository.findByEmail(email);
+
+    if (emailFound)
+      throw new HttpException(`Email Already Taken`, HttpStatus.CONFLICT);
+  }
+
+  async create(data: CreatePlayerDto) {
+    await this.thorwsExceptionIfEmailAlreadyTaken(data.email);
+
     return this.repository.create(data);
   }
 
@@ -15,11 +24,13 @@ export class PlayersService {
     return this.repository.list();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} player`;
+  findOne(id: string) {
+    return this.repository.findById(id);
   }
 
-  update(id: string, data: UpdatePlayerDto) {
+  async update(id: string, data: UpdatePlayerDto) {
+    await this.thorwsExceptionIfEmailAlreadyTaken(data.email);
+
     return this.repository.update(id, data);
   }
 }

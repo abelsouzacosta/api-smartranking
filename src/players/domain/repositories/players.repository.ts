@@ -15,6 +15,18 @@ export class PlayersRepository {
     return this.model.find({});
   }
 
+  async findByEmail(email: string): Promise<Player> {
+    return this.model.findOne({
+      email,
+    });
+  }
+
+  async findById(id: string): Promise<Player> {
+    return this.model.findOne({
+      id,
+    });
+  }
+
   async create(data: CreatePlayerDto): Promise<Player> {
     return this.model.create({
       ...data,
