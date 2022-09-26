@@ -16,7 +16,7 @@ export class CheckEventPipe implements PipeTransform {
 
     for (const event of events) {
       if (
-        event.operation !== OperationEnum.PLUS ||
+        event.operation !== OperationEnum.PLUS &&
         event.operation !== OperationEnum.MINUS
       )
         throw new HttpException(
