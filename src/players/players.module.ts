@@ -11,5 +11,6 @@ import { PlayersRepository } from './domain/repositories/players.repository';
   ],
   controllers: [PlayersController],
   providers: [PlayersService, PlayersRepository],
+  exports: [PlayersModule, PlayersService],
 })
 export class PlayersModule {}
