@@ -19,7 +19,7 @@ export class CategoriesRepository {
   }
 
   async findAll(): Promise<Array<Category>> {
-    return this.model.find();
+    return this.model.find().populate('players', 'name');
   }
 
   async findById(id: string): Promise<Category> {
