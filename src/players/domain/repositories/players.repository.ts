@@ -22,9 +22,7 @@ export class PlayersRepository {
   }
 
   async findById(id: string): Promise<Player> {
-    return this.model.findOne({
-      id,
-    });
+    return this.model.findById(id);
   }
 
   async create(data: CreatePlayerDto): Promise<Player> {
