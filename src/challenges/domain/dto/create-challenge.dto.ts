@@ -36,4 +36,6 @@ export class CreateChallengeDto {
     message: 'players should have at least 2 players',
   })
   players: string[];
+
+  solicitation_date: Date;
 }
