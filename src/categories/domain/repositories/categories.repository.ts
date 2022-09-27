@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateCategoryDto } from '../dto/create-category.dto';
 import { UpdateCategoryDto } from '../dto/update-category.dto';
 import { UpdateResult } from 'mongodb';
+import { AddPlayerToCategoryDto } from '../dto/add-player-to-category.dto';
 
 export class CategoriesRepository {
   constructor(
@@ -33,5 +34,15 @@ export class CategoriesRepository {
 
   async update(id: string, data: UpdateCategoryDto): Promise<UpdateResult> {
     return this.model.updateOne({ _id: id }, { ...data });
+  }
+
+  async addPlayerToCategory(
+    id: string,
+    data: AddPlayerToCategoryDto,
+  ): Promise<UpdateResult> {
+    return this.model.updateOne(
+      { _id: id },
+      { $push: { players: data.player_id } },
+    );
   }
 }
