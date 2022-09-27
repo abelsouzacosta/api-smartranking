@@ -2,6 +2,7 @@ import { Challenge } from 'src/challenges/entities/challenge.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateChallengeDto } from '../dto/create-challenge.dto';
+import { ChallengeStatusEnum } from '../enums/challenge-status.enum';
 
 export class ChallengesRepository {
   constructor(
@@ -12,6 +13,7 @@ export class ChallengesRepository {
   async create(data: CreateChallengeDto): Promise<Challenge> {
     return this.model.create({
       ...data,
+      status: ChallengeStatusEnum.PENDING,
     });
   }
 }
