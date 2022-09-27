@@ -14,6 +14,7 @@ export class ChallengesRepository {
     return this.model.create({
       ...data,
       status: ChallengeStatusEnum.PENDING,
+      solicitation_date: new Date().getTime(),
     });
   }
 }
