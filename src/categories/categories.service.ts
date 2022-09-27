@@ -55,6 +55,8 @@ export class CategoriesService {
   }
 
   async addPlayerToCategory(id: string, data: AddPlayerToCategoryDto) {
+    await this.throwsExceptionIfCategoryNotFound(id);
+
     await this.playersService.thorwsExceptionIfPlayerNotFound(data.player_id);
 
     return this.repository.addPlayerToCategory(id, data);
