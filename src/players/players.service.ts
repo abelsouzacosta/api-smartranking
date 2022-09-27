@@ -14,6 +14,13 @@ export class PlayersService {
       throw new HttpException(`Email Already Taken`, HttpStatus.CONFLICT);
   }
 
+  async thorwsExceptionIfPlayerNotFound(id: string): Promise<void> {
+    const player = await this.findOne(id);
+
+    if (!player)
+      throw new HttpException(`PLayer #${id} not found`, HttpStatus.NOT_FOUND);
+  }
+
   async create(data: CreatePlayerDto) {
     await this.thorwsExceptionIfEmailAlreadyTaken(data.email);
 
@@ -24,7 +31,7 @@ export class PlayersService {
     return this.repository.list();
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     return this.repository.findById(id);
   }
 
