@@ -1,0 +1,17 @@
+import { Challenge } from 'src/challenges/entities/challenge.entity';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { CreateChallengeDto } from '../dto/create-challenge.dto';
+
+export class ChallengesRepository {
+  constructor(
+    @InjectModel(Challenge.name)
+    private readonly model: Model<Challenge>,
+  ) {}
+
+  async create(data: CreateChallengeDto): Promise<Challenge> {
+    return this.model.create({
+      ...data,
+    });
+  }
+}

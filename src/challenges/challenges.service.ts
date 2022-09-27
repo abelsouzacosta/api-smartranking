@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateChallengeDto } from './dto/create-challenge.dto';
-import { UpdateChallengeDto } from './dto/update-challenge.dto';
+import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
+import { UpdateChallengeDto } from './domain/dto/update-challenge.dto';
+import { ChallengesRepository } from './domain/repository/challenges.repository';
 
 @Injectable()
 export class ChallengesService {
-  create(createChallengeDto: CreateChallengeDto) {
-    return 'This action adds a new challenge';
+  constructor(private readonly repository: ChallengesRepository) {}
+
+  create(data: CreateChallengeDto) {
+    return this.repository.create(data);
   }
 
   findAll() {
@@ -16,7 +19,7 @@ export class ChallengesService {
     return `This action returns a #${id} challenge`;
   }
 
-  update(id: number, updateChallengeDto: UpdateChallengeDto) {
+  update(id: number, data: UpdateChallengeDto) {
     return `This action updates a #${id} challenge`;
   }
 
