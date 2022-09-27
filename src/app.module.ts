@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { configValidationSchema } from './config.schema';
 import { PlayersModule } from './players/players.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ChallengesModule } from './challenges/challenges.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CategoriesModule } from './categories/categories.module';
     }),
     PlayersModule,
     CategoriesModule,
+    ChallengesModule,
   ],
 })
 export class AppModule {}
