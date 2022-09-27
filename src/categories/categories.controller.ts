@@ -10,6 +10,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
+import { AddPlayerToCategoryDto } from './domain/dto/add-player-to-category.dto';
 import { CreateCategoryDto } from './domain/dto/create-category.dto';
 import { UpdateCategoryDto } from './domain/dto/update-category.dto';
 import { CheckEventPipe } from './pipes/check-event.pipe';
@@ -40,6 +41,14 @@ export class CategoriesController {
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoriesService.update(id, updateCategoryDto);
+  }
+
+  @Patch(':id/add_player')
+  addPLayerToCategory(
+    @Param('id') id: string,
+    @Body() data: AddPlayerToCategoryDto,
+  ) {
+    return this.categoriesService.addPlayerToCategory(id, data);
   }
 
   @Delete(':id')

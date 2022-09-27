@@ -1,11 +1,16 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { PlayersService } from 'src/players/players.service';
+import { AddPlayerToCategoryDto } from './domain/dto/add-player-to-category.dto';
 import { CreateCategoryDto } from './domain/dto/create-category.dto';
 import { UpdateCategoryDto } from './domain/dto/update-category.dto';
 import { CategoriesRepository } from './domain/repositories/categories.repository';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private readonly repository: CategoriesRepository) {}
+  constructor(
+    private readonly repository: CategoriesRepository,
+    private readonly playersService: PlayersService,
+  ) {}
 
   private async throwsExceptionIfCategoryIsAlreadyTaken(
     category: string,
@@ -47,6 +52,12 @@ export class CategoriesService {
     await this.throwsExceptionIfCategoryNotFound(id);
 
     return this.repository.update(id, data);
+  }
+
+  async addPlayerToCategory(id: string, data: AddPlayerToCategoryDto) {
+    await this.playersService.thorwsExceptionIfPlayerNotFound(data.player_id);
+
+    return this.repository.addPlayerToCategory(id, data);
   }
 
   remove(id: number) {
