@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { ArrayMinSize, IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateChallengeDto {
   @IsString({
@@ -32,7 +32,7 @@ export class CreateChallengeDto {
     each: true,
     message: 'players should be an array of strings',
   })
-  @MinLength(2, {
+  @ArrayMinSize(2, {
     message: 'players should have at least 2 players',
   })
   players: string[];

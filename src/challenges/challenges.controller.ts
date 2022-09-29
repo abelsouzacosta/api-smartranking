@@ -6,6 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
@@ -16,6 +18,7 @@ export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
 
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Body() createChallengeDto: CreateChallengeDto) {
     return this.challengesService.create(createChallengeDto);
   }
