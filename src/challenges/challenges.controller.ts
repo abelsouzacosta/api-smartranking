@@ -12,13 +12,14 @@ import {
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
 import { UpdateChallengeDto } from './domain/dto/update-challenge.dto';
+import { DateValidatorPipe } from './pipes/date-validator.pipe';
 
 @Controller('challenges')
 export class ChallengesController {
   constructor(private readonly challengesService: ChallengesService) {}
 
   @Post()
-  @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe(), new DateValidatorPipe())
   create(@Body() createChallengeDto: CreateChallengeDto) {
     return this.challengesService.create(createChallengeDto);
   }
