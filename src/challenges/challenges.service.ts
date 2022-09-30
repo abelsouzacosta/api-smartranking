@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
 import { UpdateChallengeDto } from './domain/dto/update-challenge.dto';
 import { ChallengesRepository } from './domain/repository/challenges.repository';
@@ -11,8 +12,8 @@ export class ChallengesService {
     return this.repository.create(data);
   }
 
-  findAll() {
-    return this.repository.list();
+  findAll(data: PaginationDto) {
+    return this.repository.list(data);
   }
 
   findOne(id: number) {

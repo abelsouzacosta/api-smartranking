@@ -8,9 +8,11 @@ import {
   Delete,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
+import { PaginationDto } from '../common/dto/pagination.dto';
 import { UpdateChallengeDto } from './domain/dto/update-challenge.dto';
 import { DateHourTransformPipe } from './pipes/date-hour-transform.pipe';
 import { DateValidatorPipe } from './pipes/date-validator.pipe';
@@ -32,8 +34,8 @@ export class ChallengesController {
   }
 
   @Get()
-  findAll() {
-    return this.challengesService.findAll();
+  findAll(@Query(new ValidationPipe()) query: PaginationDto) {
+    return this.challengesService.findAll(query);
   }
 
   @Get(':id')

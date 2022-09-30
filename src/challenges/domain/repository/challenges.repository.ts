@@ -3,6 +3,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateChallengeDto } from '../dto/create-challenge.dto';
 import { ChallengeStatusEnum } from '../enums/challenge-status.enum';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 export class ChallengesRepository {
   constructor(
@@ -17,11 +18,13 @@ export class ChallengesRepository {
     });
   }
 
-  async list(): Promise<Array<Challenge>> {
+  async list({ limit, skip }: PaginationDto): Promise<Array<Challenge>> {
     return this.model
       .find()
       .populate('requester', 'name')
       .populate('category', 'category')
-      .populate('players', 'name');
+      .populate('players', 'name')
+      .limit(limit)
+      .skip(skip);
   }
 }
