@@ -7,7 +7,7 @@ export class CreateChallengeDto {
   @IsNotEmpty({
     message: 'date should not be empty',
   })
-  date: Date;
+  date: string;
 
   @IsString({
     message: 'requester should be a string',
@@ -36,4 +36,10 @@ export class CreateChallengeDto {
     message: 'players should have at least 2 players',
   })
   players: string[];
+
+  hour?: string;
+
+  solicitation_date?: string;
+
+  solicitation_hour?: string;
 }

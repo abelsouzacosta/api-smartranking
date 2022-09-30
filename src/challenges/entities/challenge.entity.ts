@@ -9,17 +9,23 @@ import { ChallengeStatusEnum } from '../domain/enums/challenge-status.enum';
   timestamps: true,
 })
 export class Challenge {
-  @Prop({ required: true, type: Date })
-  date: Date;
+  @Prop({ required: true, type: String })
+  date: string;
+
+  @Prop({ required: true, type: String })
+  hour: string;
 
   @Prop({ required: true, type: String })
   status: ChallengeStatusEnum;
 
-  @Prop({ required: true, type: Date })
-  solicitation_date: Date;
+  @Prop({ required: true, type: String })
+  solicitation_date: string;
 
-  @Prop({ required: false, type: Date })
-  acceptation_date: Date;
+  @Prop({ required: true, type: String })
+  solicitation_hour: string;
+
+  @Prop({ required: false, type: String })
+  acceptation_date: string;
 
   @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'Player' })
   requester: Player;
