@@ -30,6 +30,8 @@ export class DateValidatorPipe implements PipeTransform {
         HttpStatus.BAD_REQUEST,
       );
 
+    console.log(value);
+
     return value;
   }
 }
