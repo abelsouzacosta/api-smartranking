@@ -12,7 +12,7 @@ export class ChallengesService {
   }
 
   findAll() {
-    return `This action returns all challenges`;
+    return this.repository.list();
   }
 
   findOne(id: number) {

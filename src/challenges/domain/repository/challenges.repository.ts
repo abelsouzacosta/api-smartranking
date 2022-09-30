@@ -16,4 +16,12 @@ export class ChallengesRepository {
       status: ChallengeStatusEnum.PENDING,
     });
   }
+
+  async list(): Promise<Array<Challenge>> {
+    return this.model
+      .find()
+      .populate('requester', 'name')
+      .populate('category', 'category')
+      .populate('players', 'name');
+  }
 }
