@@ -43,12 +43,12 @@ export class ChallengesController {
     return this.challengesService.findOne(+id);
   }
 
-  @Get('/requester/:id')
+  @Get('requester/:id')
   findByRequester(@Param('id') id: string) {
     return this.challengesService.findByRequester(id);
   }
 
-  @Get('/player/:id')
+  @Get('player/:id')
   findByPlayer(@Param('id') id: string) {
     return this.challengesService.findByPlayer(id);
   }
