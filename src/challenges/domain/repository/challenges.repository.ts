@@ -29,6 +29,10 @@ export class ChallengesRepository {
       .skip(skip);
   }
 
+  async getStatusOfChallenge(id: string): Promise<Challenge> {
+    return this.model.findById(id).select({ status: 1, _id: 0 });
+  }
+
   async findByRequester(id: string): Promise<Array<Challenge>> {
     return this.model.find({
       requester: id,

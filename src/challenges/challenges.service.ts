@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { PlayersService } from 'src/players/players.service';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
 import { UpdateChallengeDto } from './domain/dto/update-challenge.dto';
+import { ChallengeStatusEnum } from './domain/enums/challenge-status.enum';
 import { ChallengesRepository } from './domain/repository/challenges.repository';
 
 @Injectable()
@@ -11,6 +12,16 @@ export class ChallengesService {
     private readonly repository: ChallengesRepository,
     private readonly playersService: PlayersService,
   ) {}
+
+  async throwsExceptionIfChallengeIsAlreadyMarkedAsDone(id: string) {
+    const { status } = await this.repository.getStatusOfChallenge(id);
+
+    if (status === ChallengeStatusEnum.DONE)
+      throw new HttpException(
+        `Challenge status #${id} is already setted as done`,
+        HttpStatus.CONFLICT,
+      );
+  }
 
   create(data: CreateChallengeDto) {
     return this.repository.create(data);
@@ -32,7 +43,9 @@ export class ChallengesService {
     return this.repository.findByPlayer(id);
   }
 
-  acceptChallenge(id: string) {
+  async acceptChallenge(id: string) {
+    await this.throwsExceptionIfChallengeIsAlreadyMarkedAsDone(id);
+
     return this.repository.acceptChallenge(id);
   }
 
