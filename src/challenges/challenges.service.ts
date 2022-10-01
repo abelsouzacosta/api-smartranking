@@ -32,6 +32,10 @@ export class ChallengesService {
     return this.repository.cancelChallenge(id);
   }
 
+  completeChallenge(id: string) {
+    return this.repository.completeChallenge(id);
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} challenge`;
   }

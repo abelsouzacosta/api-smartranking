@@ -60,4 +60,11 @@ export class ChallengesRepository {
       },
     );
   }
+
+  async completeChallenge(id: string): Promise<UpdateResult> {
+    return this.model.updateOne(
+      { _id: id },
+      { $set: { status: ChallengeStatusEnum.DONE } },
+    );
+  }
 }
