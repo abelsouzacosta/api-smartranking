@@ -51,6 +51,11 @@ export class ChallengesController {
     return this.challengesService.update(+id, updateChallengeDto);
   }
 
+  @Patch('accept/:id')
+  acceptChallenge(@Param('id') id: string) {
+    return this.challengesService.acceptChallenge(id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.challengesService.remove(+id);

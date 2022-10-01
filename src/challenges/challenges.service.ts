@@ -16,6 +16,10 @@ export class ChallengesService {
     return this.repository.list(data);
   }
 
+  acceptChallenge(id: string) {
+    return this.repository.acceptChallenge(id);
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} challenge`;
   }

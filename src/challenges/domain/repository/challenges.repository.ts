@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { CreateChallengeDto } from '../dto/create-challenge.dto';
 import { ChallengeStatusEnum } from '../enums/challenge-status.enum';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { UpdateResult } from 'mongodb';
 
 export class ChallengesRepository {
   constructor(
@@ -26,5 +27,14 @@ export class ChallengesRepository {
       .populate('players', 'name')
       .limit(limit)
       .skip(skip);
+  }
+
+  async acceptChallenge(id: string): Promise<UpdateResult> {
+    return this.model.updateOne(
+      { _id: id },
+      {
+        $set: { status: ChallengeStatusEnum.ACCEPTED },
+      },
+    );
   }
 }
