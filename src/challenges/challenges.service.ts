@@ -16,6 +16,10 @@ export class ChallengesService {
     return this.repository.list(data);
   }
 
+  findByRequester(id: string) {
+    return this.repository.findByRequester(id);
+  }
+
   acceptChallenge(id: string) {
     return this.repository.acceptChallenge(id);
   }

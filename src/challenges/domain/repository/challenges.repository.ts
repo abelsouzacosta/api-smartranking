@@ -29,6 +29,12 @@ export class ChallengesRepository {
       .skip(skip);
   }
 
+  async findByRequester(id: string): Promise<Array<Challenge>> {
+    return this.model.find({
+      requester: id,
+    });
+  }
+
   async acceptChallenge(id: string): Promise<UpdateResult> {
     return this.model.updateOne(
       { _id: id },

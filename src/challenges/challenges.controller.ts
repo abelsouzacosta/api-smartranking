@@ -43,6 +43,11 @@ export class ChallengesController {
     return this.challengesService.findOne(+id);
   }
 
+  @Get('/requester/:id')
+  findByRequester(@Param('id') id: string) {
+    return this.challengesService.findByRequester(id);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,
