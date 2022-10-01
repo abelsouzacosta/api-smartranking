@@ -35,6 +35,12 @@ export class ChallengesRepository {
     });
   }
 
+  async findByPlayer(id: string): Promise<Array<Challenge>> {
+    return this.model.find({
+      $or: [{ requester: id }, { players: id }],
+    });
+  }
+
   async acceptChallenge(id: string): Promise<UpdateResult> {
     return this.model.updateOne(
       { _id: id },

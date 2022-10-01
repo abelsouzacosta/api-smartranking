@@ -20,6 +20,10 @@ export class ChallengesService {
     return this.repository.findByRequester(id);
   }
 
+  findByPlayer(id: string) {
+    return this.repository.findByPlayer(id);
+  }
+
   acceptChallenge(id: string) {
     return this.repository.acceptChallenge(id);
   }

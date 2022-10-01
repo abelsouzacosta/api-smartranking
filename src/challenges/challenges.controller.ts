@@ -48,6 +48,11 @@ export class ChallengesController {
     return this.challengesService.findByRequester(id);
   }
 
+  @Get('/player/:id')
+  findByPlayer(@Param('id') id: string) {
+    return this.challengesService.findByPlayer(id);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,
