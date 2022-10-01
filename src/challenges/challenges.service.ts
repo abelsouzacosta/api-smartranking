@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { PlayersService } from 'src/players/players.service';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
 import { UpdateChallengeDto } from './domain/dto/update-challenge.dto';
 import { ChallengesRepository } from './domain/repository/challenges.repository';
 
 @Injectable()
 export class ChallengesService {
-  constructor(private readonly repository: ChallengesRepository) {}
+  constructor(
+    private readonly repository: ChallengesRepository,
+    private readonly playersService: PlayersService,
+  ) {}
 
   create(data: CreateChallengeDto) {
     return this.repository.create(data);
@@ -16,11 +20,15 @@ export class ChallengesService {
     return this.repository.list(data);
   }
 
-  findByRequester(id: string) {
+  async findByRequester(id: string) {
+    await this.playersService.thorwsExceptionIfPlayerNotFound(id);
+
     return this.repository.findByRequester(id);
   }
 
-  findByPlayer(id: string) {
+  async findByPlayer(id: string) {
+    await this.playersService.thorwsExceptionIfPlayerNotFound(id);
+
     return this.repository.findByPlayer(id);
   }
 
