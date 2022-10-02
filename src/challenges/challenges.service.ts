@@ -109,8 +109,8 @@ export class ChallengesService {
     return this.repository.denyChallenge(id);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} challenge`;
+  findById(id: string) {
+    return this.repository.findById(id);
   }
 
   update(id: number, data: UpdateChallengeDto) {

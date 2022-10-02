@@ -29,6 +29,14 @@ export class ChallengesRepository {
       .skip(skip);
   }
 
+  async findById(id: string): Promise<Challenge> {
+    return this.model
+      .findById(id)
+      .populate('requester', 'name')
+      .populate('category', 'category')
+      .populate('players', 'name');
+  }
+
   async getStatusOfChallenge(id: string): Promise<Challenge> {
     return this.model.findById(id).select({ status: 1, _id: 0 });
   }

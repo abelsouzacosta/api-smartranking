@@ -40,7 +40,7 @@ export class ChallengesController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.challengesService.findOne(+id);
+    return this.challengesService.findById(id);
   }
 
   @Get('requester/:id')
