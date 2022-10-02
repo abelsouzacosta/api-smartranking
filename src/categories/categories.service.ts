@@ -34,6 +34,32 @@ export class CategoriesService {
       );
   }
 
+  async throwsExceptionIfPlayerDontBelongToCategory(
+    id: string,
+    players_ids: string[],
+  ): Promise<void> {
+    const { players } = await this.repository.findById(id);
+
+    const category_players_ids: string[] = [];
+    const array_players_ids: string[] = [];
+
+    for (const id of players) {
+      category_players_ids.push(id.toString());
+    }
+
+    for (const id of players_ids) {
+      array_players_ids.push(id.toString());
+    }
+
+    for (const player_id of array_players_ids) {
+      if (!category_players_ids.includes(player_id))
+        throw new HttpException(
+          `Player #${player_id} doesnt belong to category`,
+          HttpStatus.BAD_REQUEST,
+        );
+    }
+  }
+
   async create(data: CreateCategoryDto) {
     await this.throwsExceptionIfCategoryIsAlreadyTaken(data.category);
 
