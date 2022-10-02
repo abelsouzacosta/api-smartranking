@@ -112,12 +112,4 @@ export class ChallengesService {
   findById(id: string) {
     return this.repository.findById(id);
   }
-
-  update(id: number, data: UpdateChallengeDto) {
-    return `This action updates a #${id} challenge`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} challenge`;
-  }
 }

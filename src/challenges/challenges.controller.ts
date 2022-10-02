@@ -5,7 +5,6 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   UsePipes,
   ValidationPipe,
   Query,
@@ -13,7 +12,6 @@ import {
 import { ChallengesService } from './challenges.service';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
 import { PaginationDto } from '../common/dto/pagination.dto';
-import { UpdateChallengeDto } from './domain/dto/update-challenge.dto';
 import { DateHourTransformPipe } from './pipes/date-hour-transform.pipe';
 import { DateValidatorPipe } from './pipes/date-validator.pipe';
 import { SetSolicitationInfoPipe } from './pipes/set-solicitation-info.pipe';
@@ -53,14 +51,6 @@ export class ChallengesController {
     return this.challengesService.findByPlayer(id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateChallengeDto: UpdateChallengeDto,
-  ) {
-    return this.challengesService.update(+id, updateChallengeDto);
-  }
-
   @Patch('accept/:id')
   acceptChallenge(@Param('id') id: string) {
     return this.challengesService.acceptChallenge(id);
@@ -79,10 +69,5 @@ export class ChallengesController {
   @Patch('complete/:id')
   completeChallenge(@Param('id') id: string) {
     return this.challengesService.completeChallenge(id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.challengesService.remove(+id);
   }
 }
