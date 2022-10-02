@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { PlayersService } from 'src/players/players.service';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
-import { UpdateChallengeDto } from './domain/dto/update-challenge.dto';
 import { ChallengeStatusEnum } from './domain/enums/challenge-status.enum';
 import { ChallengesRepository } from './domain/repository/challenges.repository';
 
