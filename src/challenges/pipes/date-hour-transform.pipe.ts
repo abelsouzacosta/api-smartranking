@@ -7,8 +7,6 @@ export class DateHourTransformPipe implements PipeTransform {
 
     const [date, hour] = value.date.split(' ');
 
-    console.log(value);
-
     value.date = date;
     value.hour = hour;
 

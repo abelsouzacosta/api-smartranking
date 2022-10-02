@@ -19,8 +19,6 @@ export class SetSolicitationInfoPipe implements PipeTransform {
     value.solicitation_date = solicitation_date;
     value.solicitation_hour = hour;
 
-    console.log(value);
-
     return value;
   }
 }
