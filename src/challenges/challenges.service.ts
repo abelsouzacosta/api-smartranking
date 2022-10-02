@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CategoriesService } from 'src/categories/categories.service';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { PlayersService } from 'src/players/players.service';
 import { CreateChallengeDto } from './domain/dto/create-challenge.dto';
@@ -10,6 +11,7 @@ export class ChallengesService {
   constructor(
     private readonly repository: ChallengesRepository,
     private readonly playersService: PlayersService,
+    private readonly categoriesService: CategoriesService,
   ) {}
 
   async getStatusOfChallenge(id: string) {
@@ -48,7 +50,12 @@ export class ChallengesService {
       );
   }
 
-  create(data: CreateChallengeDto) {
+  async create(data: CreateChallengeDto) {
+    await this.categoriesService.throwsExceptionIfPlayerDontBelongToCategory(
+      data.category,
+      data.players,
+    );
+
     return this.repository.create(data);
   }
 
