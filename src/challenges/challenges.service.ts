@@ -32,7 +32,7 @@ export class ChallengesService {
   async throwsExceptionIfChallengeIsMarkedAsCanceled(id: string) {
     const status = await this.getStatusOfChallenge(id);
 
-    if (status !== ChallengeStatusEnum.CANCELED)
+    if (status === ChallengeStatusEnum.CANCELED)
       throw new HttpException(
         `Challenge #${id} is marked as canceled`,
         HttpStatus.CONFLICT,
@@ -42,7 +42,7 @@ export class ChallengesService {
   async thorwsExceptionIfChallengeIsMarkedAsDenied(id: string) {
     const status = await this.getStatusOfChallenge(id);
 
-    if (status !== ChallengeStatusEnum.DENIED)
+    if (status === ChallengeStatusEnum.DENIED)
       throw new HttpException(
         `Challenge #${id} is marked as denied`,
         HttpStatus.CONFLICT,
