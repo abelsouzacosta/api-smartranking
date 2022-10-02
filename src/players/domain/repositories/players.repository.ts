@@ -21,6 +21,18 @@ export class PlayersRepository {
     });
   }
 
+  async findPlayers(players_ids: string[]): Promise<Player[]> {
+    const players: Player[] = [];
+
+    for (const id of players_ids) {
+      const player = await this.model.findById(id).select({ _id: 1 });
+
+      players.push(player);
+    }
+
+    return players;
+  }
+
   async findById(id: string): Promise<Player> {
     return this.model.findById(id);
   }
