@@ -31,6 +31,10 @@ export class PlayersService {
     return this.repository.list();
   }
 
+  async findPlayers(players_ids: string[]) {
+    return this.repository.findPlayers(players_ids);
+  }
+
   async findOne(id: string) {
     return this.repository.findById(id);
   }
