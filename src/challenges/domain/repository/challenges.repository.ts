@@ -71,4 +71,11 @@ export class ChallengesRepository {
       { $set: { status: ChallengeStatusEnum.DONE } },
     );
   }
+
+  async denyChallenge(id: string): Promise<UpdateResult> {
+    return this.model.updateOne(
+      { _id: id },
+      { $set: { status: ChallengeStatusEnum.DENIED } },
+    );
+  }
 }

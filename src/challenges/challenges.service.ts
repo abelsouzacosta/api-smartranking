@@ -13,12 +13,38 @@ export class ChallengesService {
     private readonly playersService: PlayersService,
   ) {}
 
-  async throwsExceptionIfChallengeIsAlreadyMarkedAsDone(id: string) {
+  async getStatusOfChallenge(id: string) {
+    const { status } = await this.repository.getStatusOfChallenge(id);
+
+    return status;
+  }
+
+  async throwsExceptionIfChallengeIsMarkedAsDone(id: string) {
     const { status } = await this.repository.getStatusOfChallenge(id);
 
     if (status === ChallengeStatusEnum.DONE)
       throw new HttpException(
         `Challenge status #${id} is already setted as done`,
+        HttpStatus.CONFLICT,
+      );
+  }
+
+  async throwsExceptionIfChallengeIsMarkedAsCanceled(id: string) {
+    const status = await this.getStatusOfChallenge(id);
+
+    if (status !== ChallengeStatusEnum.CANCELED)
+      throw new HttpException(
+        `Challenge #${id} is marked as canceled`,
+        HttpStatus.CONFLICT,
+      );
+  }
+
+  async thorwsExceptionIfChallengeIsMarkedAsDenied(id: string) {
+    const status = await this.getStatusOfChallenge(id);
+
+    if (status !== ChallengeStatusEnum.DENIED)
+      throw new HttpException(
+        `Challenge #${id} is marked as denied`,
         HttpStatus.CONFLICT,
       );
   }
@@ -44,17 +70,43 @@ export class ChallengesService {
   }
 
   async acceptChallenge(id: string) {
-    await this.throwsExceptionIfChallengeIsAlreadyMarkedAsDone(id);
+    await this.throwsExceptionIfChallengeIsMarkedAsCanceled(id);
+
+    await this.throwsExceptionIfChallengeIsMarkedAsDone(id);
+
+    await this.thorwsExceptionIfChallengeIsMarkedAsDenied(id);
 
     return this.repository.acceptChallenge(id);
   }
 
-  cancelChallenge(id: string) {
+  async cancelChallenge(id: string) {
+    await this.throwsExceptionIfChallengeIsMarkedAsCanceled(id);
+
+    await this.throwsExceptionIfChallengeIsMarkedAsDone(id);
+
+    await this.thorwsExceptionIfChallengeIsMarkedAsDenied(id);
+
     return this.repository.cancelChallenge(id);
   }
 
-  completeChallenge(id: string) {
+  async completeChallenge(id: string) {
+    await this.throwsExceptionIfChallengeIsMarkedAsCanceled(id);
+
+    await this.throwsExceptionIfChallengeIsMarkedAsDone(id);
+
+    await this.thorwsExceptionIfChallengeIsMarkedAsDenied(id);
+
     return this.repository.completeChallenge(id);
+  }
+
+  async denyChallenge(id: string) {
+    await this.throwsExceptionIfChallengeIsMarkedAsCanceled(id);
+
+    await this.throwsExceptionIfChallengeIsMarkedAsDone(id);
+
+    await this.thorwsExceptionIfChallengeIsMarkedAsDenied(id);
+
+    return this.repository.denyChallenge(id);
   }
 
   findOne(id: number) {
