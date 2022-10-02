@@ -71,6 +71,11 @@ export class ChallengesController {
     return this.challengesService.cancelChallenge(id);
   }
 
+  @Patch('deny/:id')
+  denyChallenge(@Param('id') id: string) {
+    return this.challengesService.denyChallenge(id);
+  }
+
   @Patch('complete/:id')
   completeChallenge(@Param('id') id: string) {
     return this.challengesService.completeChallenge(id);
