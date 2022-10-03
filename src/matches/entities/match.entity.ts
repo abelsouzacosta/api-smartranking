@@ -1,1 +1,25 @@
-export class Match {}
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+import { Category } from 'src/categories/entities/category.entity';
+import { Player } from 'src/players/entities/player.entity';
+import { Result, ResultSchema } from './result.entity';
+
+@Schema({
+  timestamps: true,
+  collection: 'matches',
+})
+export class Match {
+  @Prop({ required: true, type: mongoose.Types.ObjectId })
+  category: Category;
+
+  @Prop({ required: true, type: [mongoose.Types.ObjectId] })
+  players: Player[];
+
+  @Prop({ required: true, type: mongoose.Types.ObjectId })
+  def: Player;
+
+  @Prop({ required: true, type: [ResultSchema] })
+  result: Result[];
+}
+
+export const MatchSchema = SchemaFactory.createForClass(Match);
