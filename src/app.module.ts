@@ -5,6 +5,7 @@ import { configValidationSchema } from './config.schema';
 import { PlayersModule } from './players/players.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ChallengesModule } from './challenges/challenges.module';
+import { MatchesModule } from './matches/matches.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ChallengesModule } from './challenges/challenges.module';
     PlayersModule,
     CategoriesModule,
     ChallengesModule,
+    MatchesModule,
   ],
 })
 export class AppModule {}
