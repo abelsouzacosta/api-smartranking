@@ -1,4 +1,4 @@
-import { Category } from 'src/categories/entities/category.entity';
+import { Category } from '../../entities/category.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateCategoryDto } from '../dto/create-category.dto';

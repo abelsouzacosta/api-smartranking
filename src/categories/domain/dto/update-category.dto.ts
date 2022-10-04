@@ -7,11 +7,11 @@ export class UpdateCategoryDto {
   @IsNotEmpty({
     message: 'description should not be empty',
   })
-  description: string;
+  description?: string;
 
   @IsArray({
     message: 'events should be an array',
   })
   @IsOptional()
-  events: Event[];
+  events?: Event[];
 }
