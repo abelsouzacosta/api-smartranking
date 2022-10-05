@@ -1,7 +1,7 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UpdateResult } from 'mongodb';
-import { Player } from 'src/players/entities/player.entity';
+import { Player } from '../../entities/player.entity';
 import { CreatePlayerDto } from '../dto/create-player.dto';
 import { UpdatePlayerDto } from '../dto/update-player.dto';
 

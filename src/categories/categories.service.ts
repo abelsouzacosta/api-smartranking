@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { PlayersService } from 'src/players/players.service';
+import { PlayersService } from '../players/players.service';
 import { AddPlayerToCategoryDto } from './domain/dto/add-player-to-category.dto';
 import { CreateCategoryDto } from './domain/dto/create-category.dto';
 import { UpdateCategoryDto } from './domain/dto/update-category.dto';
@@ -12,7 +12,7 @@ export class CategoriesService {
     private readonly playersService: PlayersService,
   ) {}
 
-  private async throwsExceptionIfCategoryIsAlreadyTaken(
+  public async throwsExceptionIfCategoryIsAlreadyTaken(
     category: string,
   ): Promise<void> {
     const categoryFound = await this.repository.findByCategory(category);
