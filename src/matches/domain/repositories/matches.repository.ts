@@ -35,4 +35,18 @@ export class MatchesRepository {
 
     return matches;
   }
+
+  async getMatchesByDef(def: string): Promise<Array<Match>> {
+    const matchesOfDef = await this.model.find({
+      def,
+    });
+
+    if (!matchesOfDef)
+      throw new HttpException(
+        `Any match was found for this player`,
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+
+    return matchesOfDef;
+  }
 }
