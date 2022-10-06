@@ -51,9 +51,13 @@ export class MatchesRepository {
   }
 
   async getMatchesOfPlayer(player_id: string): Promise<Array<Match>> {
-    const matchesWithPlayer = await this.model.find({
-      $or: [{ def: player_id }, { players: player_id }],
-    });
+    const matchesWithPlayer = await this.model
+      .find({
+        $or: [{ def: player_id }, { players: player_id }],
+      })
+      .populate('category', 'category')
+      .populate('players', 'name')
+      .populate('def', 'name');
 
     if (!matchesWithPlayer)
       throw new HttpException(
