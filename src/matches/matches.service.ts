@@ -17,4 +17,8 @@ export class MatchesService {
   getByDef(def: string) {
     return this.repository.getMatchesByDef(def);
   }
+
+  getMatchesByPlayer(player_id: string) {
+    return this.repository.getMatchesOfPlayer(player_id);
+  }
 }

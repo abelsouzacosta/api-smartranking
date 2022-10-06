@@ -20,4 +20,9 @@ export class MatchesController {
   getMatchesByDef(@Param('id') id: string) {
     return this.matchesService.getByDef(id);
   }
+
+  @Get('player/:id')
+  getMatchesOfPlayer(@Param('id') id: string) {
+    return this.matchesService.getMatchesByPlayer(id);
+  }
 }
