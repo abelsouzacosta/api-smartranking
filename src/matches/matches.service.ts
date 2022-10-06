@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMatchDto } from './domain/dto/create-match.dto';
 import { UpdateMatchDto } from './domain/dto/update-match.dto';
+import { MatchesRepository } from './domain/repositories/matches.repository';
 
 @Injectable()
 export class MatchesService {
-  create(createMatchDto: CreateMatchDto) {
-    return 'This action adds a new match';
+  constructor(private readonly repository: MatchesRepository) {}
+
+  create(data: CreateMatchDto) {
+    return this.repository.create(data);
   }
 
   findAll() {
