@@ -49,4 +49,18 @@ export class MatchesRepository {
 
     return matchesOfDef;
   }
+
+  async getMatchesOfPlayer(player_id: string): Promise<Array<Match>> {
+    const matchesWithPlayer = await this.model.find({
+      $or: [{ def: player_id }, { players: player_id }],
+    });
+
+    if (!matchesWithPlayer)
+      throw new HttpException(
+        `Player ${player_id} there hasn't been any game yet`,
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+
+    return matchesWithPlayer;
+  }
 }
