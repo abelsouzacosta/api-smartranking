@@ -23,4 +23,16 @@ export class MatchesRepository {
 
     return match;
   }
+
+  async list(): Promise<Array<Match>> {
+    const matches = await this.model
+      .find()
+      .populate('players', 'name')
+      .populate('def', 'name')
+      .populate('category', 'category');
+
+    if (matches.length === 0) return [];
+
+    return matches;
+  }
 }
