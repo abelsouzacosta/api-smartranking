@@ -13,4 +13,8 @@ export class MatchesService {
   findAll() {
     return this.repository.list();
   }
+
+  getByDef(def: string) {
+    return this.repository.getMatchesByDef(def);
+  }
 }
