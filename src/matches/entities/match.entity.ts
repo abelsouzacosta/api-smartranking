@@ -9,13 +9,13 @@ import { Result, ResultSchema } from './result.entity';
   collection: 'matches',
 })
 export class Match {
-  @Prop({ required: true, type: mongoose.Types.ObjectId })
+  @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'Category' })
   category: Category;
 
-  @Prop({ required: true, type: [mongoose.Types.ObjectId] })
+  @Prop({ required: true, type: [mongoose.Types.ObjectId], ref: 'Player' })
   players: Player[];
 
-  @Prop({ required: true, type: mongoose.Types.ObjectId })
+  @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'Player' })
   def: Player;
 
   @Prop({ required: true, type: [ResultSchema] })
