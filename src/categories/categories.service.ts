@@ -87,8 +87,4 @@ export class CategoriesService {
 
     return this.repository.addPlayerToCategory(id, data);
   }
-
-  remove(id: number) {
-    return `This action removes a #${id} category`;
-  }
 }
