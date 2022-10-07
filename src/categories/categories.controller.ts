@@ -93,6 +93,7 @@ export class CategoriesController {
     return this.categoriesService.update(id, updateCategoryDto);
   }
 
+  @ApiOperation({ summary: 'Assigns an player to an category' })
   @ApiResponse({
     description:
       'adds a player identified with id in the body to the category identified in the id',
