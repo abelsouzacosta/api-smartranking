@@ -1,6 +1,10 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { ArrayMinSize, IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateChallengeDto {
+  @ApiProperty({
+    example: '2023-07-17 03:24:00',
+  })
   @IsString({
     message: 'date should be a string',
   })
@@ -9,6 +13,9 @@ export class CreateChallengeDto {
   })
   date: string;
 
+  @ApiProperty({
+    example: '63313b2da0fcbb9829f53841',
+  })
   @IsString({
     message: 'requester should be a string',
   })
@@ -17,6 +24,9 @@ export class CreateChallengeDto {
   })
   requester: string;
 
+  @ApiProperty({
+    example: '63313b2da0fcbb9829f53841',
+  })
   @IsString({
     message: 'category should be a string',
   })
@@ -25,6 +35,9 @@ export class CreateChallengeDto {
   })
   category: string;
 
+  @ApiProperty({
+    example: ['63313b2da0fcbb9829f53841', '63313b2da0fcbb9829f53841'],
+  })
   @IsArray({
     message: 'players should be an array',
   })

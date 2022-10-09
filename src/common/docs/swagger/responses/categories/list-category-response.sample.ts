@@ -1,11 +1,7 @@
 import { ApiResponseProperty } from '@nestjs/swagger';
+import { MongoInstanceSample } from '../mongo-instance.sample';
 
-export class ListCategoryResponseDto {
-  @ApiResponseProperty({
-    example: '6331ecc8176f53e39e605187',
-  })
-  _id: string;
-
+export class ListCategoryResponseDto extends MongoInstanceSample {
   @ApiResponseProperty({
     example: 'B',
   })
@@ -53,19 +49,4 @@ export class ListCategoryResponseDto {
     ],
   })
   players: any[];
-
-  @ApiResponseProperty({
-    example: '2022-09-26T18:17:44.406Z',
-  })
-  createdAt: string;
-
-  @ApiResponseProperty({
-    example: '2022-09-26T18:17:44.406Z',
-  })
-  updatedAt: string;
-
-  @ApiResponseProperty({
-    example: 0,
-  })
-  __v: number;
 }
