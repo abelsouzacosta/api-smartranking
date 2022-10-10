@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   ArrayMinSize,
   ArrayNotEmpty,
@@ -8,6 +9,11 @@ import {
 import { Result } from '../types/Result.type';
 
 export class CreateMatchDto {
+  @ApiProperty({
+    description: 'category of the match',
+    example: '6331ecc8176f53e39e605187',
+    required: true,
+  })
   @IsString({
     message: 'category should be a string',
   })
@@ -16,6 +22,11 @@ export class CreateMatchDto {
   })
   category: string;
 
+  @ApiProperty({
+    description: 'players in the match',
+    example: ['63313b2da0fcbb9829f53841', '63314005404e91aa8d896f25'],
+    required: true,
+  })
   @IsArray({
     message: 'players should be an array',
   })
@@ -24,6 +35,11 @@ export class CreateMatchDto {
   })
   players: string[];
 
+  @ApiProperty({
+    description: 'defensor of the match',
+    example: '63313b2da0fcbb9829f53841',
+    required: true,
+  })
   @IsString({
     message: 'def should be a string',
   })
@@ -32,6 +48,18 @@ export class CreateMatchDto {
   })
   def: string;
 
+  @ApiProperty({
+    description: 'result of the match',
+    example: [
+      {
+        set: '5-6',
+      },
+      {
+        set: '5-6',
+      },
+    ],
+    required: true,
+  })
   @IsArray({
     message: 'result should be an array',
   })
