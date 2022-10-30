@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { configValidationSchema } from './config.schema';
 import { PlayersModule } from './players/players.module';
-import { CategoriesModule } from './categories/categories.module';
 import { ChallengesModule } from './challenges/challenges.module';
 import { MatchesModule } from './matches/matches.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
