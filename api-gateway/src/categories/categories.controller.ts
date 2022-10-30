@@ -11,7 +11,7 @@ import {
   ClientProxyFactory,
   Transport,
 } from '@nestjs/microservices';
-import { RABBITMQ_URL } from '../../common/config';
+import { RABBITMQ_URL } from '../../config';
 import { Queues } from 'common/constants/queues';
 import { MessagePatterns } from 'common/constants/message-patterns';
 
